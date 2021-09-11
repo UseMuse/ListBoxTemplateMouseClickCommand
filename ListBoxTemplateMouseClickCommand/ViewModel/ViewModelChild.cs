@@ -1,7 +1,5 @@
 ﻿using ListBoxTemplateMouseClickCommand.DataModel;
 using Simplified;
-using System;
-using System.Collections.ObjectModel;
 
 namespace ListBoxTemplateMouseClickCommand.ViewModel
 {

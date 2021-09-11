@@ -1,6 +1,4 @@
-﻿using ListBoxTemplateMouseClickCommand.DataModel;
-using ListBoxTemplateMouseClickCommand.ViewModel;
-using System.Collections.Generic;
+﻿using ListBoxTemplateMouseClickCommand.ViewModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,16 +9,9 @@ namespace ListBoxTemplateMouseClickCommand
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ViewModelMain viewmodel;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            //List<DataModelRoot> items = DBHelper.GetRoots();
-
-            //viewmodel = new ViewModelMain(items);
-            //DataContext = viewmodel;
         }
 
         private bool isNestedExecute;

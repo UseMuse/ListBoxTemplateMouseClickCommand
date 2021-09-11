@@ -41,7 +41,6 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
                 // Данные Времени Исполнения.
                 Children.AddRange(DBHelper.GetChildren(Data.ID.Value).Select(list => new ViewModelChild(list)));
             }
-            //Children = new ObservableCollection<ViewModelChild>(DBHelper.GetChildren(Data.ID.Value).Select(list => new ViewModelChild(list)));
             ShowEditDialogCommand = new RelayCommand(EditExecute, EditCanExecute);
 
         }
@@ -66,46 +65,11 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 
                 if (view.ShowDialog() == false)
                 {
-                    //DataModelChild newdata = view.Data;
                     ViewModelChild newview = new ViewModelChild(data);
                     int index = Children.IndexOf(Children.Where(p => p.ID.Equals(data.ID)).FirstOrDefault());
                     Children[index] = newview;
                 }
             }
         }
-        //private class ViewModelShowEditDialogCommand : RelayCommand
-        //{
-        //    ViewModelRoot SelectedRoot;
-        //    public ViewModelShowEditDialogCommand(ViewModelRoot selectedRoot)
-        //    {
-        //        SelectedRoot = selectedRoot;
-        //        BuildCommand(ExecuteEditCommand, CanExecuteEditCommand);
-        //    }
-
-        //    public bool CanExecuteEditCommand(object parameter)
-        //    {
-        //        bool canExecute = SelectedRoot != null && SelectedRoot.SelectedChild != null;
-        //        return canExecute;
-        //    }
-
-        //    public void ExecuteEditCommand(object parameter)
-        //    {
-        //        var data = SelectedRoot?.SelectedChild?.GetData();
-        //        if (data != null)
-        //        {
-        //            ChildEdit view = new ChildEdit(/*data*/);
-        //            ViewModelChildEdit vm = new ViewModelChildEdit(data, view);
-        //            view.DataContext = vm;
-
-        //            if (view.ShowDialog() == false)
-        //            {
-        //                //DataModelChild newdata = view.Data;
-        //                ViewModelChild newview = new ViewModelChild(data);
-        //                int index = SelectedRoot.Children.IndexOf(SelectedRoot.Children.Where(p => p.ID.Equals(data.ID)).FirstOrDefault());
-        //                SelectedRoot.Children[index] = newview;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
