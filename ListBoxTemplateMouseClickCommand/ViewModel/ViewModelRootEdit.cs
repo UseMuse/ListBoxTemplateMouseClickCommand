@@ -15,8 +15,28 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         {
             data = item;
             //DataOriginal = new DataModelRoot() { ID = Data.ID, Title = Data.Title };
-            CloseCommand = new ViewModelRootEditCloseCommand(this, window);
-            SaveCommand = new ViewModelRootEditSaveCommandCommand(this, window);
+            CloseCommand = new RelayCommand(() =>
+            {
+                data.Title = Title;
+                window.Close();
+            });
+            SaveCommand = new RelayCommand(
+                () => {
+                    if (DBHelper.SyncRoot(data))
+                        window.Close();
+                    else
+                    {
+                        ViewModelRootEdit datacontext = new ViewModelRootEdit(data, window);
+                        datacontext.ErrorMessage = "Ошибка сохранения";
+                        window.DataContext = datacontext;
+                    }
+                },
+                () =>
+                {
+                    bool canExecute = data.Title != Title;
+                    return canExecute;
+                }
+            );
         }
         public int? ID => data?.ID;
         private string _title;
@@ -30,65 +50,65 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 
         #region Команды
         public ICommand CloseCommand { get; }
-        private class ViewModelRootEditCloseCommand : ICommand
-        {
-            private readonly ViewModelRootEdit _view;
-            private readonly Window _window;
+        //private class ViewModelRootEditCloseCommand : ICommand
+        //{
+        //    private readonly ViewModelRootEdit _view;
+        //    private readonly Window _window;
 
-            public ViewModelRootEditCloseCommand(ViewModelRootEdit view, Window window)
-            {
-                _view = view;
-                _window = window;
-            }
+        //    public ViewModelRootEditCloseCommand(ViewModelRootEdit view, Window window)
+        //    {
+        //        _view = view;
+        //        _window = window;
+        //    }
 
-            event EventHandler ICommand.CanExecuteChanged
-            {
-                add { }
-                remove { }
-            }
+        //    event EventHandler ICommand.CanExecuteChanged
+        //    {
+        //        add { }
+        //        remove { }
+        //    }
 
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
+        //    public bool CanExecute(object parameter)
+        //    {
+        //        return true;
+        //    }
 
-            public void Execute(object parameter)
-            {
-                _view.data.Title = _view.Title;
-                _window.Close();
-            }
-        }
+        //    public void Execute(object parameter)
+        //    {
+        //        _view.data.Title = _view.Title;
+        //        _window.Close();
+        //    }
+        //}
 
         public RelayCommand SaveCommand { get; }
-        private class ViewModelRootEditSaveCommandCommand : RelayCommand
-        {
-            private readonly ViewModelRootEdit _view;
-            private readonly Window _window;
+        //private class ViewModelRootEditSaveCommandCommand : RelayCommand
+        //{
+        //    private readonly ViewModelRootEdit _view;
+        //    private readonly Window _window;
 
-            public ViewModelRootEditSaveCommandCommand(ViewModelRootEdit view, Window window)
-            {
-                _view = view;
-                _window = window;
-                BuildCommand(ExecuteEditSaveCommand, CanExecuteEditSaveCommand);
-            }
-            public bool CanExecuteEditSaveCommand(object parameter)
-            {
-                bool canExecute = _view.data.Title != _view.Title;
-                return canExecute;
-            }
+        //    public ViewModelRootEditSaveCommandCommand(ViewModelRootEdit view, Window window)
+        //    {
+        //        _view = view;
+        //        _window = window;
+        //        BuildCommand(ExecuteEditSaveCommand, CanExecuteEditSaveCommand);
+        //    }
+        //    public bool CanExecuteEditSaveCommand(object parameter)
+        //    {
+        //        bool canExecute = _view.data.Title != _view.Title;
+        //        return canExecute;
+        //    }
 
-            public void ExecuteEditSaveCommand(object parameter)
-            {
-                if (DBHelper.SyncRoot(_view.data))
-                    _window.Close();
-                else
-                {
-                    ViewModelRootEdit datacontext = new ViewModelRootEdit(_view.data, _window);
-                    datacontext.ErrorMessage = "Ошибка сохранения";
-                    _window.DataContext = datacontext;
-                }
-            }
-        }
+        //    public void ExecuteEditSaveCommand(object parameter)
+        //    {
+        //        if (DBHelper.SyncRoot(_view.data))
+        //            _window.Close();
+        //        else
+        //        {
+        //            ViewModelRootEdit datacontext = new ViewModelRootEdit(_view.data, _window);
+        //            datacontext.ErrorMessage = "Ошибка сохранения";
+        //            _window.DataContext = datacontext;
+        //        }
+        //    }
+        //}
         #endregion
     }
 }
