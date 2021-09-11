@@ -47,7 +47,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             if (data != null)
             {
                 ChildEdit view = new ChildEdit(/*data*/);
-                ViewModelChildEdit vm = new ViewModelChildEdit(data, view);
+                ViewModelChildEdit vm = new ViewModelChildEdit(data/*, view*/);
                 view.DataContext = vm;
 
                 if (view.ShowDialog() == false)

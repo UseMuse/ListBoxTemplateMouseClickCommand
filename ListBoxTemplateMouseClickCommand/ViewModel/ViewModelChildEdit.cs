@@ -11,20 +11,20 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
     {
         private readonly DataModelChild data;
         //private readonly DataModelChild dataOriginal;
-        public ViewModelChildEdit(DataModelChild item, Window window)
+        public ViewModelChildEdit(DataModelChild item/*, Window window*/)
         {
             data = item;
             //dataOriginal = new DataModelChild() { ID = data.ID, Title = data.Title };
             CloseCommand = new RelayCommand(() => 
             {
                 data.Title = Title;
-                window.Close();
+                //window.Close();
             });
 
             SaveCommand = new RelayCommand(() =>
             {
                 data.Title = Title;
-                window.Close();
+                //window.Close();
             });
         }
 

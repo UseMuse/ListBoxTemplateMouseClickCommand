@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ListBoxTemplateMouseClickCommand.View"
         Title="Child Edit" Height="200" Width="320" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
 
@@ -37,8 +38,10 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Label Content="{Binding ErrorMessage, Mode=TwoWay}" Style="{StaticResource nameError}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button IsDefault="True" Command="{Binding SaveCommand}" Content="ОК" Style="{StaticResource BaseButton}"/>
-                    <Button IsCancel="True"  Command="{Binding CloseCommand}" Content="Отмена" Style="{StaticResource BaseButton}" Margin="5,0,0,0"/>
+                    <Button IsDefault="True" Command="{Binding SaveCommand}" Content="ОК" Style="{StaticResource BaseButton}"
+                            Click="{x:Static local:ViewHandlers.WindowClose}"/>
+                    <Button IsCancel="True"  Command="{Binding CloseCommand}" Content="Отмена" Style="{StaticResource BaseButton}" Margin="5,0,0,0"
+                            Click="{x:Static local:ViewHandlers.WindowClose}"/>
                 </StackPanel>
             </StackPanel>
         </DockPanel>

@@ -11,24 +11,27 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
     {
         private readonly DataModelRoot data;
         //public DataModelRoot DataOriginal { get; }
-        public ViewModelRootEdit(DataModelRoot item, Window window)
+        public ViewModelRootEdit(DataModelRoot item,/* Window window*/ Action exit)
         {
             data = item;
             //DataOriginal = new DataModelRoot() { ID = Data.ID, Title = Data.Title };
             CloseCommand = new RelayCommand(() =>
             {
                 data.Title = Title;
-                window.Close();
+                //window.Close();
             });
             SaveCommand = new RelayCommand(
-                () => {
+                () =>
+                {
                     if (DBHelper.SyncRoot(data))
-                        window.Close();
+                        //window.Close();
+                        exit();
                     else
                     {
-                        ViewModelRootEdit datacontext = new ViewModelRootEdit(data, window);
-                        datacontext.ErrorMessage = "Ошибка сохранения";
-                        window.DataContext = datacontext;
+                        //ViewModelRootEdit datacontext = new ViewModelRootEdit(data, window);
+                        /*datacontext.*/
+                        ErrorMessage = "Ошибка сохранения";
+                        //window.DataContext = datacontext;
                     }
                 },
                 () =>
@@ -40,13 +43,15 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         }
         public int? ID => data?.ID;
         private string _title;
+        private string _errorMessage;
+
         public string Title
         {
             get => _title;
             set => Set(ref _title, value);
         }
 
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get => _errorMessage; private set => Set(ref _errorMessage, value); }
 
         #region Команды
         public ICommand CloseCommand { get; }

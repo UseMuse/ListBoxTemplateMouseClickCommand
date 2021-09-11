@@ -41,7 +41,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             if (data != null)
             {
                 RootEdit view = new RootEdit(/*mainView.SelectedRoot.Data*/);
-                var vm = new ViewModelRootEdit(data, view);
+                var vm = new ViewModelRootEdit(data, view.Close);
                 view.DataContext = vm;
                 if (view.ShowDialog() == false)
                 {
