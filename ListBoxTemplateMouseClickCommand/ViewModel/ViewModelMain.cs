@@ -25,13 +25,32 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         /// <summary>
         /// Корневые элементы
         /// </summary>
-        public ObservableCollection<ViewModelRoot> Roots { get; private set; }
+        public ObservableCollection<ViewModelRoot> Roots { get;/* private set; */} = new ObservableCollection<ViewModelRoot>();
 
-        public ViewModelMain(List<DataModelRoot> items)
+        public ViewModelMain()
         {
-            Roots = new ObservableCollection<ViewModelRoot>(items.Select(item => new ViewModelRoot(item)));
+            if (IsInDesignMode)
+            {
+                // Данные Времени Pазработки
+                Roots.AddRange(new ViewModelRoot[]
+                {
+                    new ViewModelRoot(new DataModelRoot() {ID = 123 }),
+                    new ViewModelRoot(new DataModelRoot() {ID = 456 })
+                });
+            }
+            else
+            {
+                // Данные Времени Исполнения.
+                Roots.AddRange(DBHelper.GetRoots().Select(item => new ViewModelRoot(item)));
+            }
             ShowEditDialogCommand = new RelayCommand(ShowEditDialogExecute, ShowEditDialogCanExecute);
         }
+
+        //public ViewModelMain(List<DataModelRoot> items)
+        //{
+        //    Roots = new ObservableCollection<ViewModelRoot>(items.Select(item => new ViewModelRoot(item)));
+        //    ShowEditDialogCommand = new RelayCommand(ShowEditDialogExecute, ShowEditDialogCanExecute);
+        //}
         #region команды
         public RelayCommand ShowEditDialogCommand { get; }
 

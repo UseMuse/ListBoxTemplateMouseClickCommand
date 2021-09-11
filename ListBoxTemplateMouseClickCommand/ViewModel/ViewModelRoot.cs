@@ -19,7 +19,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
                 }
             }
         }
-        public ObservableCollection<ViewModelChild> Children { get; private set; }
+        public ObservableCollection<ViewModelChild> Children { get; /*private set;*/ } = new ObservableCollection<ViewModelChild>();
 
         public DataModelRoot Data { get; }
         public DataModelRoot DataOriginal { get; }
@@ -27,7 +27,21 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         {
             Data = item;
             DataOriginal = new DataModelRoot() { ID = item.ID, Title = item.Title };
-            Children = new ObservableCollection<ViewModelChild>(DBHelper.GetChildren(Data.ID.Value).Select(list => new ViewModelChild(list)));
+            if (IsInDesignMode)
+            {
+                // Данные Времени Pазработки
+                Children.AddRange(new ViewModelChild[]
+                {
+                    new ViewModelChild(new DataModelChild() {ID=item.ID * 100 +1, ParentID=item.ID, Title=$"N{item.ID}-1" }),
+                    new ViewModelChild(new DataModelChild() {ID=item.ID * 100 +2, ParentID=item.ID, Title=$"N{item.ID}-2" }),
+                });
+            }
+            else
+            {
+                // Данные Времени Исполнения.
+                Children.AddRange(DBHelper.GetChildren(Data.ID.Value).Select(list => new ViewModelChild(list)));
+            }
+            //Children = new ObservableCollection<ViewModelChild>(DBHelper.GetChildren(Data.ID.Value).Select(list => new ViewModelChild(list)));
             ShowEditDialogCommand = new RelayCommand(EditExecute, EditCanExecute);
 
         }

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Interfaces\IItemMenuDto.cs" />
     <Compile Include="Interfaces\IItemsMenuModel.cs" />
     <Compile Include="Interfaces\IItemsMenuViewModel.cs" />
