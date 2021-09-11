@@ -21,21 +21,21 @@ namespace ListBoxTemplateMouseClickCommand.View
     /// </summary>
     public partial class ChildEdit : Window
     {
-        private ViewModelChildEdit view;
-        private DataModelChild viewdata;
+        //private ViewModelChildEdit view;
+        //private DataModelChild viewdata;
 
-        public ChildEdit(DataModelChild data)
+        public ChildEdit(/*DataModelChild data*/)
         {
             InitializeComponent();
 
-            view = new ViewModelChildEdit(data, this);
-            DataContext = view;
-            viewdata = data;
+            //view = new ViewModelChildEdit(data, this);
+            //DataContext = view;
+            //viewdata = data;
         }
 
-        public DataModelChild Data
-        {
-            get { return view.Data; }
-        }
+        //public DataModelChild Data
+        //{
+        //    get { return view.data; }
+        //}
     }
 }

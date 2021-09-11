@@ -67,7 +67,6 @@
     <Compile Include="ViewModel\ViewModelRoot.cs" />
     <Compile Include="ViewModel\ViewModelChild.cs" />
     <Compile Include="ViewModel\ViewModelMain.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ChildEdit.xaml.cs">
       <DependentUpon>ChildEdit.xaml</DependentUpon>
     </Compile>
@@ -100,7 +99,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OnPropertyChangedClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -126,6 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{695994E1-2F7B-49B5-9E3D-4E2A41E41C9A}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

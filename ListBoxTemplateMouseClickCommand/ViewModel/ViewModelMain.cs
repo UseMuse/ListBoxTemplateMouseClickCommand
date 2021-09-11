@@ -1,5 +1,6 @@
 ﻿using ListBoxTemplateMouseClickCommand.DataModel;
 using ListBoxTemplateMouseClickCommand.View;
+using Simplified;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             get { return _selectedRoot; }
             set
             {
-                SetProperty(ref _selectedRoot, value);
+                Set(ref _selectedRoot, value);
                 ShowEditDialogCommand.Invalidate();
             }
         }
@@ -50,13 +51,19 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 
             public void ExecuteShowEditDialogCommand(object parameter)
             {
-                RootEdit view = new RootEdit(mainView.SelectedRoot.Data);
-                if (view.ShowDialog() == false)
+                DataModelRoot data = mainView?.SelectedRoot?.Data;
+                if (data != null)
                 {
-                    DataModelRoot newdata = view.Data;
-                    ViewModelRoot newview = new ViewModelRoot(newdata);
-                    int index = mainView.Roots.IndexOf(mainView.Roots.Where(p => p.Data.ID.Equals(newdata.ID)).FirstOrDefault());
-                    mainView.Roots[index] = newview;
+                    RootEdit view = new RootEdit(/*mainView.SelectedRoot.Data*/);
+                    var vm = new ViewModelRootEdit(data, view);
+                    view.DataContext = vm;
+                    if (view.ShowDialog() == false)
+                    {
+                        //DataModelRoot newdata = view.Data;
+                        ViewModelRoot newview = new ViewModelRoot(data);
+                        int index = mainView.Roots.IndexOf(mainView.Roots.Where(p => p.Data.ID.Equals(data.ID)).FirstOrDefault());
+                        mainView.Roots[index] = newview;
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using ListBoxTemplateMouseClickCommand.DataModel;
 using ListBoxTemplateMouseClickCommand.View;
+using Simplified;
 using System.Collections.ObjectModel;
 using System.Linq;
 namespace ListBoxTemplateMouseClickCommand.ViewModel
@@ -12,15 +13,14 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             get => _selectedChild;
             set
             {
-                SetProperty(ref _selectedChild, value);
-                if (_selectedChild != null)
+                if (Set(ref _selectedChild, value))
                 {
                     ShowEditDialogCommand.Invalidate();
                 }
             }
         }
         public ObservableCollection<ViewModelChild> Children { get; private set; }
- 
+
         public DataModelRoot Data { get; }
         public DataModelRoot DataOriginal { get; }
         public ViewModelRoot(DataModelRoot item)
@@ -52,13 +52,20 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 
             public void ExecuteEditCommand(object parameter)
             {
-                ChildEdit view = new ChildEdit(SelectedRoot.SelectedChild.Data);
-                if (view.ShowDialog() == false)
+                var data = SelectedRoot?.SelectedChild?.GetData();
+                if (data != null)
                 {
-                    DataModelChild newdata = view.Data;
-                    ViewModelChild newview = new ViewModelChild(newdata);
-                    int index = SelectedRoot.Children.IndexOf(SelectedRoot.Children.Where(p => p.Data.ID.Equals(newdata.ID)).FirstOrDefault());
-                    SelectedRoot.Children[index] = newview;
+                    ChildEdit view = new ChildEdit(/*data*/);
+                    ViewModelChildEdit vm = new ViewModelChildEdit(data, view);
+                    view.DataContext = vm;
+
+                    if (view.ShowDialog() == false)
+                    {
+                        //DataModelChild newdata = view.Data;
+                        ViewModelChild newview = new ViewModelChild(data);
+                        int index = SelectedRoot.Children.IndexOf(SelectedRoot.Children.Where(p => p.ID.Equals(data.ID)).FirstOrDefault());
+                        SelectedRoot.Children[index] = newview;
+                    }
                 }
             }
         }

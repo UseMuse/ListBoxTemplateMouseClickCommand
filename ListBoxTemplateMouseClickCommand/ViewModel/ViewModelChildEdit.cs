@@ -1,4 +1,5 @@
 ﻿using ListBoxTemplateMouseClickCommand.DataModel;
+using Simplified;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -8,29 +9,23 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 {
     public class ViewModelChildEdit : ViewModelBase
     {
-        public DataModelChild Data { get; }
-        public DataModelChild DataOriginal { get; }
+        private readonly DataModelChild data;
+        //private readonly DataModelChild dataOriginal;
         public ViewModelChildEdit(DataModelChild item, Window window)
         {
-            Data = item;
-            DataOriginal = new DataModelChild() { ID = Data.ID, Title = Data.Title };
+            data = item;
+            //dataOriginal = new DataModelChild() { ID = data.ID, Title = data.Title };
             CloseCommand = new ViewModelRootEditCloseCommand(this, window);
             SaveCommand = new ViewModelRootEditSaveCommandCommand(this, window);
         }
-        public int? ID
-        {
-            get => Data.ID;
-        }
+
+        public int? ID => data?.ID;
+
+        private string _title;
         public string Title
         {
-            get => Data.Title;
-            set
-            {
-                bool changed = OnPropertyChangedClass.ChangeProp(Data.Title, value);
-                Data.Title = value;
-                if (changed)
-                    SaveCommand.Invalidate();
-            }
+            get => _title;
+            set => Set(ref _title, value);
         }
 
         public string ErrorMessage { get; set; }
@@ -61,7 +56,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 
             public void Execute(object parameter)
             {
-                _view.Data.Title = _view.DataOriginal.Title;
+                _view.data.Title = _view.Title;
                 _window.Close();
             }
         }
@@ -80,17 +75,17 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             }
             public bool CanExecuteEditSaveCommand(object parameter)
             {
-                bool canExecute = _view.Data.Title != _view.DataOriginal.Title;
+                bool canExecute = _view.data.Title != _view.Title;
                 return canExecute;
             }
 
             public void ExecuteEditSaveCommand(object parameter)
             {
-                if (DBHelper.SyncChild(_view.Data))
+                if (DBHelper.SyncChild(_view.data))
                     _window.Close();
                 else
                 {
-                    ViewModelChildEdit datacontext = new ViewModelChildEdit(_view.Data, _window)
+                    ViewModelChildEdit datacontext = new ViewModelChildEdit(_view.data, _window)
                     {
                         ErrorMessage = "Ошибка!"
                     };

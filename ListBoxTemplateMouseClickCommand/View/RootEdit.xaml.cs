@@ -21,21 +21,21 @@ namespace ListBoxTemplateMouseClickCommand.View
     /// </summary>
     public partial class RootEdit : Window
     {
-        private ViewModelRootEdit view;
-        private DataModelRoot viewdata;
+        //private ViewModelRootEdit view;
+        //private DataModelRoot viewdata;
 
-        public RootEdit(DataModelRoot data)
+        public RootEdit(/*DataModelRoot data*/)
         {
             InitializeComponent();
 
-            view = new ViewModelRootEdit(data, this);
-            DataContext = view;
-            viewdata = data;
+            //view = new ViewModelRootEdit(data, this);
+            //DataContext = view;
+            //viewdata = data;
         }
 
-        public DataModelRoot Data
-        {
-            get { return view.Data; }
-        }
+        //public DataModelRoot Data
+        //{
+        //    get { return view.data; }
+        //}
     }
 }

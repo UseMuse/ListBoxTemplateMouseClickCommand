@@ -1,4 +1,5 @@
 ﻿using ListBoxTemplateMouseClickCommand.DataModel;
+using Simplified;
 using System;
 using System.Collections.ObjectModel;
 
@@ -6,14 +7,15 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
 {
     public class ViewModelChild : ViewModelBase
     {
-        public DataModelChild Data;
+        private readonly DataModelChild data;
 
         public ViewModelChild(DataModelChild item)
         {
-            Data = item;
+            data = item;
         }
-        public int? ID => Data.ID;
+        public int? ID => data?.ID;
 
-        public string Title => Data.Title;
+        public string Title => data?.Title;
+        public DataModelChild GetData() => data;
     }
 }
