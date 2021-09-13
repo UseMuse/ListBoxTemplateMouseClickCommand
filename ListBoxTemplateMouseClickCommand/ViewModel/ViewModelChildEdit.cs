@@ -11,15 +11,19 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         {
             data = item;
             Title = data?.Title;
-            CloseCommand = new RelayCommand(() => 
+            CloseCommand = new RelayCommand(() =>
             {
                 //data.Title = Title;
             });
 
             SaveCommand = new RelayCommand(() =>
-            {
-                data.Title = Title;
-            });
+              {
+                  data.Title = Title;
+                  if (!DBHelper.SyncChild(data))
+                  {
+                      ErrorMessage = "Ошибка сохранения";
+                  }
+              }, () => data.Title != Title);
         }
 
         public int? ID => data?.ID;
