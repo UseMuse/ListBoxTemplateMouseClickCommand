@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListBoxTemplateMouseClickCommand.View"
-        Title="Root Edit" Height="150" Width="320" ResizeMode="NoResize" 
+        Title="Root Edit" Height="200" Width="320" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
 
     <Window.Resources>
@@ -25,14 +25,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0"  Content="ID: " Style="{StaticResource nameTitle}"/>
                 <Label Grid.Column="1" Grid.Row="0"  Content="{Binding ID}"/>
                 <Label Grid.Column="0" Grid.Row ="1" Content="Title" Style="{StaticResource nameTitle}" />
                 <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BaseTextBox}"/>
+                <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="5"  Content="{Binding ErrorMessage, Mode=OneWay}" Style="{StaticResource nameError}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </Grid>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Label Content="{Binding ErrorMessage, Mode=OneWay}" Style="{StaticResource nameError}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <Button IsDefault="True" Command="{Binding SaveCommand}" Content="ОК" Style="{StaticResource BaseButton}"/>
                     <Button IsCancel="True"  Command="{Binding CloseCommand}" Content="Отмена" Style="{StaticResource BaseButton}" Margin="5,0,0,0"
