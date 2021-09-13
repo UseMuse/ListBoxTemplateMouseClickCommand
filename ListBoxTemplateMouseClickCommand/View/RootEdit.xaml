@@ -32,7 +32,7 @@
                 <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BaseTextBox}"/>
             </Grid>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Label Content="{Binding ErrorMessage, Mode=TwoWay}" Style="{StaticResource nameError}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Content="{Binding ErrorMessage, Mode=OneWay}" Style="{StaticResource nameError}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <Button IsDefault="True" Command="{Binding SaveCommand}" Content="ОК" Style="{StaticResource BaseButton}"/>
                     <Button IsCancel="True"  Command="{Binding CloseCommand}" Content="Отмена" Style="{StaticResource BaseButton}" Margin="5,0,0,0"

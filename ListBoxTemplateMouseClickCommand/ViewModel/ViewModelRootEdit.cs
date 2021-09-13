@@ -11,13 +11,15 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         public ViewModelRootEdit(DataModelRoot item, Action exit)
         {
             data = item;
+            Title = item.Title;
             CloseCommand = new RelayCommand(() =>
             {
-                data.Title = Title;
+                //data.Title = Title;
             });
             SaveCommand = new RelayCommand(
                 () =>
                 {
+                    data.Title = Title;
                     if (DBHelper.SyncRoot(data))
                         exit();
                     else
