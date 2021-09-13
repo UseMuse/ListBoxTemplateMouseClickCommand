@@ -13,7 +13,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             Title = data?.Title;
             CloseCommand = new RelayCommand(() => 
             {
-                data.Title = Title;
+                //data.Title = Title;
             });
 
             SaveCommand = new RelayCommand(() =>
