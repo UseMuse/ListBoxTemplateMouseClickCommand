@@ -10,6 +10,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
         public ViewModelChildEdit(DataModelChild item)
         {
             data = item;
+            Title = data?.Title;
             CloseCommand = new RelayCommand(() => 
             {
                 data.Title = Title;
