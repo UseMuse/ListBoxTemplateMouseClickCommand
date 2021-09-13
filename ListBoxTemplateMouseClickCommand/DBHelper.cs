@@ -19,7 +19,11 @@ namespace ListBoxTemplateMouseClickCommand
             }
             return items;
         }
-
+        /// <summary>
+        /// Обновление или добавление данных
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         internal static bool SyncRoot(DataModelRoot data)
         {
 
@@ -27,6 +31,16 @@ namespace ListBoxTemplateMouseClickCommand
             {
                 #region insert or update DB
 
+                Random rand = new Random();
+
+                if (rand.Next(0, 2) == 0)
+                {
+                    throw new Exception($"Ошибка SyncRoot. {DateTime.Now}");
+                }
+                else //данные успешно обвновлены/добавлены
+                {
+
+                }
                 #endregion
 
                 return true;
@@ -47,12 +61,27 @@ namespace ListBoxTemplateMouseClickCommand
             }
             return items;
         }
-
+        /// <summary>
+        /// Обновление или добавление данных
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         internal static bool SyncChild(DataModelChild data)
         {
             try
             {
                 #region insert or update DB
+
+                Random rand = new Random();
+
+                if (rand.Next(0, 2) == 0)
+                {
+                    throw new Exception($"Ошибка SyncChild. {DateTime.Now}");
+                }
+                else //данные успешно обвновлены/добавлены
+                {
+
+                }
 
                 #endregion
 
