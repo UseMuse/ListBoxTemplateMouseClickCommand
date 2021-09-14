@@ -35,7 +35,12 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
             set => Set(ref _title, value);
         }
 
-        public string ErrorMessage { get; set; }
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => Set(ref _errorMessage, value);
+        }
 
         #region Команды
         public ICommand CloseCommand { get; }
