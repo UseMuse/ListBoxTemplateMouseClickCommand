@@ -13,17 +13,5 @@ namespace ListBoxTemplateMouseClickCommand
         {
             InitializeComponent();
         }
-
-        private bool isNestedExecute;
-        private void OnNested(object sender, MouseButtonEventArgs e)
-        {
-            isNestedExecute = true;
-        }
-
-        private void OnMain(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = isNestedExecute;
-            isNestedExecute = false;
-        }
     }
 }

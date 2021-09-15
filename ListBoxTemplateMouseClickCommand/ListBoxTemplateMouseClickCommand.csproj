@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MouseDoubleNoBubbling.cs" />
     <Compile Include="DataModel\DataModelChild.cs" />
     <Compile Include="DataModel\DataModelRoot.cs" />
     <Compile Include="DBHelper.cs" />

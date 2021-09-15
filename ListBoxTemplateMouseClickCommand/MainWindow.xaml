@@ -24,15 +24,15 @@
     </Window.Resources>
     <ListBox ItemsSource="{Binding Path=Roots,BindsDirectlyToSource=True}"
              SelectedItem="{Binding Path=SelectedRoot, Mode=TwoWay}"
-             ScrollViewer.CanContentScroll="False"
-             MouseDoubleClick="OnMain">
+             ScrollViewer.CanContentScroll="False">
         <ListBox.InputBindings>
             <KeyBinding Key="Return" Command="{Binding ShowEditDialogCommand}" />
         </ListBox.InputBindings>
         <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
+           <i:EventTrigger EventName="MouseDoubleClick">
                 <i:InvokeCommandAction Command="{Binding ShowEditDialogCommand}"/>
             </i:EventTrigger>
+             <local:MouseDoubleNoBubbling/>
         </i:Interaction.Triggers>
         <ListBox.ItemTemplate>
             <DataTemplate>
@@ -45,12 +45,12 @@
                         <StackPanel Orientation="Vertical">
                             <ListBox ItemsSource="{Binding Path=Children}" 
                                      SelectedItem="{Binding Path=SelectedChild, Mode=TwoWay}" 
-                                     Background="GhostWhite" Margin="0,5,0,0"
-                                     MouseDoubleClick="OnNested">
+                                     Background="GhostWhite" Margin="0,5,0,0">
                                 <ListBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding ShowEditDialogCommand}"/>
                                 </ListBox.InputBindings>
                                 <i:Interaction.Triggers>
+                                    <local:MouseDoubleNoBubbling/>
                                     <i:EventTrigger EventName="MouseDoubleClick">
                                         <i:InvokeCommandAction Command="{Binding ShowEditDialogCommand}" />
                                     </i:EventTrigger>
