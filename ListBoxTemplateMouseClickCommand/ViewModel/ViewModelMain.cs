@@ -20,7 +20,7 @@ namespace WPF.ViewModel
 {
     public class ViewModelMain : ViewModelBase
     {
-        //private readonly IRootLogic _rootLogic;
+        private readonly IRootLogic _rootLogic;
 
         private ViewModelRoot _selectedRoot;
         public ViewModelRoot SelectedRoot
@@ -54,25 +54,25 @@ namespace WPF.ViewModel
             }
             else
             {
-                //_rootLogic = new RootLogic(new RootRepository());
-                //LoadDataCommand = RelayCommandAsync.Create(LoadDataAsync);
-                Roots.AddRange(DBHelper.GetRoots().Select(item => new ViewModelRoot(item)));
+                _rootLogic = new RootLogic(new RootRepository());
+                LoadDataCommand = RelayCommandAsync.Create(LoadDataAsync);
+                //Roots.AddRange(DBHelper.GetRoots().Select(item => new ViewModelRoot(item)));
             }
 
             ShowEditDialogCommand = new RelayCommand(ShowEditDialogExecute, ShowEditDialogCanExecute);
         }
 
-        //public ICommand LoadDataCommand { get; set; }
+        public ICommand LoadDataCommand { get; set; }
 
-        //public async Task LoadDataAsync(CancellationToken token = new CancellationToken())
-        //{
-        //    await Task.Delay(TimeSpan.FromSeconds(6), token).ConfigureAwait(false);
-        //    List<RootDTO> rootDTOs = await _rootLogic.GetRoots();
-        //    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
-        //        {
-        //            Roots.AddRange(rootDTOs.Select(item => new ViewModelRoot(new DataModelRoot() { ID = item.ID, Title = item.Title })).ToList());
-        //        }));
-        //}
+        public async Task LoadDataAsync(CancellationToken token = new CancellationToken())
+        {
+            await Task.Delay(TimeSpan.FromSeconds(3), token).ConfigureAwait(false);
+            List<RootDTO> rootDTOs = await _rootLogic.GetRoots();
+            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                  {
+                      Roots.AddRange(rootDTOs.Select(item => new ViewModelRoot(new DataModelRoot() { ID = item.ID, Title = item.Title })).ToList());
+                  }));
+        }
 
         #region команды
         public RelayCommand ShowEditDialogCommand { get; }

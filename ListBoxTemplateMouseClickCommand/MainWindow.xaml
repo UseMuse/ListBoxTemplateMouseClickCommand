@@ -25,12 +25,12 @@
 
         </ResourceDictionary>
     </Window.Resources>
-    <!--первичная загрузка данных-->
-    <!--<i:Interaction.Triggers>
+    <!--первичная асинхронная загрузка данных-->
+    <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
-    </i:Interaction.Triggers>-->
+    </i:Interaction.Triggers>
     <Grid>
         <ListBox ItemsSource="{Binding Path=Roots,BindsDirectlyToSource=True}"
              SelectedItem="{Binding Path=SelectedRoot, Mode=TwoWay}"
@@ -80,15 +80,17 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <!--<Grid Visibility="{Binding LoadDataCommand.Execution, Converter={StaticResource NullToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10">
-            --><!--Busy indicator--><!--
+        <!--демонстрация хода асинхронной загрузки первичных данных-->
+        <Grid Visibility="{Binding LoadDataCommand.Execution, Converter={StaticResource NullToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10">
+            <!--Busy indicator-->
             <Label Content="Loading..." Visibility="{Binding LoadDataCommand.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            --><!--Results--><!--
+            <!--Results-->
             <Label Content="{Binding LoadDataCommand.Execution.Result}" Visibility="{Binding LoadDataCommand.Execution.IsSuccessfullyCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            --><!--Error details--><!--
+            <!--Error details-->
             <Label Content="{Binding LoadDataCommand.Execution.ErrorMessage}" Visibility="{Binding LoadDataCommand.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="Red" />
-            --><!--Canceled--><!--
+            <!--Canceled-->
             <Label Content="Canceled" Visibility="{Binding LoadDataCommand.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="Blue" />
-        </Grid>-->
+        </Grid>
+
     </Grid>
 </Window>
