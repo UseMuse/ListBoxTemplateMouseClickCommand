@@ -45,7 +45,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Interfaces\IItemMenuDto.cs" />
     <Compile Include="Interfaces\IItemsMenuModel.cs" />
@@ -54,7 +53,11 @@
     <Compile Include="Simplified\BaseInpc.cs" />
     <Compile Include="Simplified\CommandExtensionMethods.cs" />
     <Compile Include="Simplified\CommandHandlers.cs" />
+    <Compile Include="Simplified\IAsyncCommand.cs" />
+    <Compile Include="Simplified\NotifyTaskCompletion.cs" />
     <Compile Include="Simplified\RelayCommand.cs" />
+    <Compile Include="Simplified\RelayCommandAsync.cs" />
+    <Compile Include="Simplified\RelayCommandAsyncBase.cs" />
     <Compile Include="Simplified\RelayCommandT.cs" />
     <Compile Include="Simplified\ViewModelBase.cs" />
   </ItemGroup>
