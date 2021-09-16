@@ -1,7 +1,7 @@
-﻿using ListBoxTemplateMouseClickCommand.DataModel;
+﻿using WPF.DataModel;
 using Simplified;
 
-namespace ListBoxTemplateMouseClickCommand.ViewModel
+namespace WPF.ViewModel
 {
     public class ViewModelChild : ViewModelBase
     {

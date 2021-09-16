@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ListBoxTemplateMouseClickCommand.View
+namespace WPF.View
 {
     /// <summary>
     /// Логика взаимодействия для RootEdit.xaml

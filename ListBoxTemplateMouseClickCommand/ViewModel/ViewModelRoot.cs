@@ -1,12 +1,15 @@
-﻿using ListBoxTemplateMouseClickCommand.DataModel;
-using ListBoxTemplateMouseClickCommand.View;
+﻿using WPF.DataModel;
+using WPF.View;
 using Simplified;
 using System.Collections.ObjectModel;
 using System.Linq;
-namespace ListBoxTemplateMouseClickCommand.ViewModel
+using Logic.Child;
+
+namespace WPF.ViewModel
 {
     public class ViewModelRoot : ViewModelBase
     {
+        //private readonly IChildLogic _childLogic;
         private ViewModelChild _selectedChild;
         public ViewModelChild SelectedChild
         {
@@ -66,8 +69,7 @@ namespace ListBoxTemplateMouseClickCommand.ViewModel
                 if (view.ShowDialog() == false)
                 {
                     ViewModelChild newview = new ViewModelChild(data);
-                    int index = Children.IndexOf(Children.Where(p => p.ID.Equals(data.ID)).FirstOrDefault());
-                    Children[index] = newview;
+                    Children.Replace(p => p.ID.Equals(data.ID), newview);
                 }
             }
         }

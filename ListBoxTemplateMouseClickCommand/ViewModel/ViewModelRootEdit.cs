@@ -1,9 +1,9 @@
-﻿using ListBoxTemplateMouseClickCommand.DataModel;
+﻿using WPF.DataModel;
 using Simplified;
 using System;
 using System.Windows.Input;
 
-namespace ListBoxTemplateMouseClickCommand.ViewModel
+namespace WPF.ViewModel
 {
     public class ViewModelRootEdit : ViewModelBase
     {

@@ -1,11 +1,11 @@
-﻿using ListBoxTemplateMouseClickCommand.DataModel;
+﻿using WPF.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ListBoxTemplateMouseClickCommand
+namespace WPF
 {
     public static class DBHelper
     {

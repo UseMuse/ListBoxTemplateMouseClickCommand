@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using TriggerCollection = Microsoft.Xaml.Behaviors.TriggerCollection;
 
-namespace ListBoxTemplateMouseClickCommand
+namespace WPF
 {
     /// <summary>Класс триггера события <see cref="Control.MouseDoubleClick"/>,
     /// позволяющий для триггеров обрабатывать отмену его всплывания.</summary>
