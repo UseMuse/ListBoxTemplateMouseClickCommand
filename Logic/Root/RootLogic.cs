@@ -1,48 +1,61 @@
 ﻿using Data.Model;
 using Data.Root;
+using Logic.Child;
 using Logic.DTO;
+using Logic.Root;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Root
+namespace Logic
 {
-    public class RootLogic : IRootLogic
+    /// <summary>Модель реализующая интерфейсы <see cref="IRootLogic"/> и <see cref="IChildLogic"/>.</summary>
+    public partial class MainLogic : IRootLogic
     {
         private readonly IRootRepository _rootRepository;
 
-        public RootLogic(IRootRepository rootRepository)
+        public MainLogic(IRootRepository rootRepository)
         {
             _rootRepository = rootRepository;
         }
 
-        private RootDTO map(RootModel item)
+        /// <summary>Метод возвращает <see cref="RootDTO"/> с данными из переданного <see cref="RootModel"/>.</summary>
+        /// <param name="item">Экземпляр с данными.</param>
+        /// <returns>Новый экземпляр <see cref="RootDTO"/> с данными из переданного <see cref="RootModel"/>.</returns>
+        internal static RootDTO Mapper(RootModel item)
         {
             return new RootDTO(item.ID, item.Title);
         }
 
+        /// <inheritdoc cref="IRootLogic.GetRoot(int)"/>
         public async Task<RootDTO> GetRoot(int rootId)
         {
             RootModel item = await _rootRepository.GetRoot(rootId);
-            RootDTO dto = map(item);
+            if (item == null)
+                throw new ArgumentException(nameof(rootId));
+            RootDTO dto = Mapper(item);
             return dto;
         }
 
+        /// <inheritdoc cref="IRootLogic.GetRoot(string)"/>
         public async Task<RootDTO> GetRoot(string title)
         {
             RootModel item = await _rootRepository.GetRoot(title);
-            RootDTO dto = map(item);
+            if (item == null)
+                throw new ArgumentException(nameof(title));
+            RootDTO dto = Mapper(item);
             return dto;
         }
 
-        public async Task<List<RootDTO>> GetRoots()
+        /// <inheritdoc cref="IRootLogic.GetRoots()"/>
+        public async Task<IEnumerable<RootDTO>> GetRoots()
         {
-            List<RootModel> items = await _rootRepository.GetRoots();
-            List<RootDTO> dtos = new List<RootDTO>();
-            dtos.AddRange((from item in items select map(item)).ToList());
-            return dtos;
+            IEnumerable<RootModel> items = await _rootRepository.GetRoots();
+            //List<RootDTO> dtos = new List<RootDTO>();
+            //dtos.AddRange((from item in items select map(item)).ToList());
+            //return dtos;
+            return Array.AsReadOnly(items.Select(Mapper).ToArray());
         }
     }
 }
