@@ -10,15 +10,8 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    /// <summary>Модель реализующая интерфейсы <see cref="IRootLogic"/> и <see cref="IChildLogic"/>.</summary>
     public partial class MainLogic : IRootLogic
     {
-        private readonly IRootRepository _rootRepository;
-
-        public MainLogic(IRootRepository rootRepository)
-        {
-            _rootRepository = rootRepository;
-        }
 
         /// <summary>Метод возвращает <see cref="RootDTO"/> с данными из переданного <see cref="RootModel"/>.</summary>
         /// <param name="item">Экземпляр с данными.</param>
@@ -31,7 +24,7 @@ namespace Logic
         /// <inheritdoc cref="IRootLogic.GetRoot(int)"/>
         public async Task<RootDTO> GetRoot(int rootId)
         {
-            RootModel item = await _rootRepository.GetRoot(rootId);
+            RootModel item = await rootRepository.GetRoot(rootId);
             if (item == null)
                 throw new ArgumentException(nameof(rootId));
             RootDTO dto = Mapper(item);
@@ -41,7 +34,7 @@ namespace Logic
         /// <inheritdoc cref="IRootLogic.GetRoot(string)"/>
         public async Task<RootDTO> GetRoot(string title)
         {
-            RootModel item = await _rootRepository.GetRoot(title);
+            RootModel item = await rootRepository.GetRoot(title);
             if (item == null)
                 throw new ArgumentException(nameof(title));
             RootDTO dto = Mapper(item);
@@ -51,7 +44,7 @@ namespace Logic
         /// <inheritdoc cref="IRootLogic.GetRoots()"/>
         public async Task<IEnumerable<RootDTO>> GetRoots()
         {
-            IEnumerable<RootModel> items = await _rootRepository.GetRoots();
+            IEnumerable<RootModel> items = await rootRepository.GetRoots();
             //List<RootDTO> dtos = new List<RootDTO>();
             //dtos.AddRange((from item in items select map(item)).ToList());
             //return dtos;

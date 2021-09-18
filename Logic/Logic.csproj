@@ -46,7 +46,9 @@
     <Compile Include="Child\IChildLogic.cs" />
     <Compile Include="DTO\ChildDTO.cs" />
     <Compile Include="DTO\RootDTO.cs" />
+    <Compile Include="IMainLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainLogic.cs" />
     <Compile Include="Root\IRootLogic.cs" />
     <Compile Include="Root\RootLogic.cs" />
   </ItemGroup>
