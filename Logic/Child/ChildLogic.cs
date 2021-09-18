@@ -11,36 +11,36 @@ namespace Logic
     public partial class MainLogic : IChildLogic
     {
 
-        /// <summary>Метод возвращает <see cref="ChildDTO"/> с данными из переданного <see cref="ChildModel"/>.</summary>
+        /// <summary>Метод возвращает <see cref="ChildDto"/> с данными из переданного <see cref="ChildModel"/>.</summary>
         /// <param name="item">Экземпляр с данными.</param>
-        /// <returns>Новый экземпляр <see cref="ChildDTO"/> с данными из переданного <see cref="ChildModel"/>.</returns>
-        internal static ChildDTO Mapper(ChildModel item)
+        /// <returns>Новый экземпляр <see cref="ChildDto"/> с данными из переданного <see cref="ChildModel"/>.</returns>
+        internal static ChildDto Mapper(ChildModel item)
         {
-            return new ChildDTO(item.ID, item.Title, item.ParentID);
+            return new ChildDto(item.ID, item.Title, item.ParentID);
         }
 
         /// <inheritdoc cref="IChildLogic.GetChild(int)"/>
-        public async Task<ChildDTO> GetChild(int childId)
+        public async Task<ChildDto> GetChild(int childId)
         {
             ChildModel item = await childRepository.GetChild(childId);
             if (item == null)
                 throw new ArgumentException(nameof(childId));
-            ChildDTO dto = Mapper(item);
+            ChildDto dto = Mapper(item);
             return dto;
         }
 
         /// <inheritdoc cref="IChildLogic.GetChild(string)"/>
-        public async Task<ChildDTO> GetChild(string title)
+        public async Task<ChildDto> GetChild(string title)
         {
             ChildModel item = await childRepository.GetChild(title);
             if (item == null)
                 throw new ArgumentException(nameof(title));
-            ChildDTO dto = Mapper(item);
+            ChildDto dto = Mapper(item);
             return dto;
         }
 
         /// <inheritdoc cref="IChildLogic.GetChildren()"/>
-        public async Task<IEnumerable<ChildDTO>> GetChildren()
+        public async Task<IEnumerable<ChildDto>> GetChildren()
         {
             IEnumerable<ChildModel> items = await childRepository.GetChildren();
             //List<ChildDTO> dtos = new List<ChildDTO>();
@@ -50,7 +50,7 @@ namespace Logic
         }
 
         /// <inheritdoc cref="IChildLogic.GetChildren(int)"/>
-        public async Task<IEnumerable<ChildDTO>> GetChildren(int rootId)
+        public async Task<IEnumerable<ChildDto>> GetChildren(int rootId)
         {
             IEnumerable<ChildModel> items = await childRepository.GetChildren(rootId);
             //List<ChildDTO> dtos = new List<ChildDTO>();

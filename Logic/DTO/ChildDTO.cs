@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Logic.DTO
 {
-    public class ChildDTO
+    public class ChildDto
     {
         public int? ID { get; private set; }
         public string Title { get; private set; }
         public int? ParentID { get; private set; }
-        public ChildDTO(int? id, string title, int? parentID)
+        public ChildDto(int? id, string title, int? parentID)
         {
             ID = id;
             Title = title;

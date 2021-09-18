@@ -67,7 +67,7 @@ namespace WPF.ViewModel
         public async Task LoadDataAsync(CancellationToken token = new CancellationToken())
         {
             await Task.Delay(TimeSpan.FromSeconds(3), token).ConfigureAwait(false);
-            List<RootDTO> rootDTOs = await _rootLogic.GetRoots();
+            List<RootDto> rootDTOs = await _rootLogic.GetRoots();
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                   {
                       Roots.AddRange(rootDTOs.Select(item => new ViewModelRoot(new DataModelRoot() { ID = item.ID, Title = item.Title })).ToList());

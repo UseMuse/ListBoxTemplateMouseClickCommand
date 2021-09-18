@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Logic.DTO
 {
-    public class RootDTO
+    public class RootDto
     {
         public int? ID { get; private set; }
         public string Title { get; private set; }
-        public RootDTO(int? id, string title)
+        public RootDto(int? id, string title)
         {
             ID = id;
             Title = title;
