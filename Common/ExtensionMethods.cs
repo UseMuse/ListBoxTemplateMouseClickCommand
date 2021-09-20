@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Simplified
+namespace Common
 {
     public static class ExtensionMethods
     {
