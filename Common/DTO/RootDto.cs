@@ -1,12 +1,13 @@
-﻿namespace Logic.DTO
+﻿using Interfaces;
+
+namespace DTO
 {
-    public class RootDto
+    public class RootDto : IdDto<int>
     {
-        public int Id { get; }
         public string Title { get; }
         public RootDto(int id, string title)
+            : base(id)
         {
-            Id = id;
             Title = title;
         }
     }

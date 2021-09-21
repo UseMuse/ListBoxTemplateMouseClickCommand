@@ -24,7 +24,7 @@ namespace Logic
         /// <returns>Новый экземпляр <see cref="ChildModel"/> с данными из переданного <see cref="ChildDto"/>.</returns>
         internal static ChildModel Mapper(ChildDto item)
         {
-            return new ChildModel() { ID = item.ID ?? 0, Title = item.Title, ParentID = item.ParentID ?? 0 };
+            return new ChildModel() { ID = item.Id ?? 0, Title = item.Title, ParentID = item.ParentID ?? 0 };
         }
 
         /// <inheritdoc cref="IChildLogic.GetChild(int)"/>

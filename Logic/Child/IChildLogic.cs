@@ -19,7 +19,7 @@ namespace Logic.Child
 
         /// <summary>Метод возвращающий дочерний элемент по его Id.</summary>
         /// <param name="childId">Id дочернего элемента.</param>
-        /// <returns>Дочерний элемент с указанным <see cref="ChildDto.ID"/>.</returns>
+        /// <returns>Дочерний элемент с указанным <see cref="ChildDto.Id"/>.</returns>
         /// <exception cref="ArgumentException">Выкидывается когда элемента
         /// с указанным <paramref name="childId"/> нет.</exception>
         Task<ChildDto> GetChild(int childId);

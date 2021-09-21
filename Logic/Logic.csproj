@@ -44,8 +44,6 @@
   <ItemGroup>
     <Compile Include="Child\ChildLogic.cs" />
     <Compile Include="Child\IChildLogic.cs" />
-    <Compile Include="DTO\ChildDto.cs" />
-    <Compile Include="DTO\RootDto.cs" />
     <Compile Include="IMainLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainLogic.cs" />
@@ -53,6 +51,10 @@
     <Compile Include="Root\RootLogic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{695994E1-2F7B-49B5-9E3D-4E2A41E41C9A}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{B9C426E0-DB33-4820-BC35-92C48155691D}</Project>
       <Name>Data</Name>

@@ -1,13 +1,12 @@
-﻿namespace Logic.DTO
+﻿namespace DTO
 {
-    public class ChildDto
+    public class ChildDto : IdDto<int>
     {
-        public int Id { get; }
         public string Title { get; }
         public int ParentID { get; }
         public ChildDto(int id, string title, int parentID)
+            : base(id)
         {
-            Id = id;
             Title = title;
             ParentID = parentID;
         }

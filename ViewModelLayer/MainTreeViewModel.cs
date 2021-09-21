@@ -37,7 +37,7 @@ namespace ViewModelLayer
         {
             // Здесь нужна обработка исключений,
             // потом позже сами сделаете.
-            Roots.AddRange((await model.GetRoots()).Select(CreateVM));
+            Roots.AddRange((await model.GetRootsAsync()).Select(CreateVM));
             Children.AddRange((await model.GetChildren()).Select(CreateVM));
         }
     }

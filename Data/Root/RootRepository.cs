@@ -1,51 +1,127 @@
-﻿using Data;
-using Data.Model;
+﻿using Data.Model;
+using DTO;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Root
 {
     public class RootRepository : IRootRepository
     {
         /// <inheritdoc cref="IRootRepository.GetRoot(int)"/>
-        public async Task<RootModel> GetRoot(int rootId)
+        public RootDto GetRoot(int rootId)
         {
             using (DbContextApp db = new DbContextApp())
             {
-                return await db.Roots.FindAsync(rootId);
+                var model = db.Roots.Find(rootId);
+                if (model == null)
+                    return null;
+                return Create(model);
             }
         }
 
         /// <inheritdoc cref="IRootRepository.GetRoot(string)"/>
-        public async Task<RootModel> GetRoot(string title)
+        public RootDto GetRoot(string title)
         {
             using (DbContextApp db = new DbContextApp())
             {
-                return await db.Roots.FirstOrDefaultAsync(c => c.Title == title);
+                var model = db.Roots.FirstOrDefault(c => c.Title == title);
+                if (model == null)
+                    return null;
+                return Create(model);
+
             }
         }
 
         /// <inheritdoc cref="IRootRepository.GetRoots()"/>
-        public async Task<List<RootModel>> GetRoots()
+        public IEnumerable<RootDto> GetRoots()
         {
             using (DbContextApp db = new DbContextApp())
             {
-                return await db.Roots.ToListAsync();
+                return db.Roots.ToArray().Select(Create).ToArray();
             }
         }
 
         /// <inheritdoc cref="IRootRepository.UpdateRoot(RootModel)"/>
-        public async Task<bool> UpdateRoot(RootModel updated)
+        public RootDto UpdateRoot(RootDto oldRoot, RootDto newRoot)
         {
             using (DbContextApp db = new DbContextApp())
             {
-                RootModel current = await GetRoot(updated.ID);
-                current.Title = updated.Title;
-                return true;
+                RootModel model = db.Roots.Find(oldRoot.Id);
+                if (model?.ID != oldRoot.Id)
+                    throw new Exception("Root с таким Id в базе нет. Возможно кто-то уже его удалил.");
+                if (!ValuesEquals(model, oldRoot))
+                    throw new Exception("У этого Root другой Title. Возможно кто-то уже его изменил.");
+
+                CopyFrom(model, newRoot);
+                int change = db.SaveChanges();
+                if (change != 1)
+                    throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+
+                return Create(model);
+            }
+
+        }
+
+        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
+        /// <param name="model">Данные для нового экземпляра.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="model"/>.</returns>
+        protected RootDto Create(RootModel model)
+        {
+            return new RootDto(model.ID, model.Title);
+        }
+
+        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
+        /// <param name="dto">Данные для нового экземпляра.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="dto"/>.</returns>
+        protected  RootModel Create(RootDto dto)
+        {
+            return new RootModel()
+            {
+                ID= dto.Id,
+                Title= dto.Title 
+            };
+        }
+
+        /// <summary>Копирует данные в <see cref="RootModel"/> из <see cref="RootDto"/>.</summary>
+        /// <param name="model">Экземпляр в который нужно скопировать данные.</param>
+        /// <param name="dto">Экземпляр из которого копируются данные.</param>
+        protected void CopyFrom(RootModel model, RootDto dto)
+        {
+            if (model.ID != dto.Id)
+                throw new Exception("Данные не для этого Id.");
+            model.Title = dto.Title;
+        }
+
+        /// <summary>Проверяет идентичность данных.</summary>
+        /// <param name="model">Экземпляр <see cref="RootModel"/>.</param>
+        /// <param name="dto">Экземпляр <see cref="RootDto"/>.</param>
+        /// <returns>Возвращает <see langword="true"/>, если данные в обоих экземплярах идентичны.</returns>
+        protected bool ValuesEquals(RootModel model, RootDto dto)
+        {
+            return
+                model.ID == dto.Id &&
+                model.Title == dto.Title;
+        }
+
+        /// <inheritdoc cref="IRootRepository.AddRoot(RootDto)"/>
+        public RootDto AddRoot(RootDto dto)
+        {
+            using (DbContextApp db = new DbContextApp())
+            {
+                var model = Create(dto);
+                db.Roots.Add(model);
+                int change = db.SaveChanges();
+                // После сохранения Модели в ней данные могут быть изменены.
+                // Допустим, ID при добавлении игнорируется и после добавления
+                // в он будет перезаписан ID из БД.
+                // Поэтому надо создать новый DTO из той же Модели и вернуть его.
+
+
+                if (change != 1)
+                    throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+                
+                return Create(model);
             }
         }
     }

@@ -1,36 +1,34 @@
 ﻿using Data.Model;
-using System;
+using DTO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Root
 {
     public interface IRootRepository
     {
-        /// <summary>
-        /// Метод возвращающий все корневые элементы
-        /// </summary>
-        /// <returns>все корневые элементы</returns>
-        Task<List<RootModel>> GetRoots();
+        /// <summary>Метод возвращающий все корневые элементы.</summary>
+        /// <returns>Все корневые элементы.</returns>
+        IEnumerable<RootDto> GetRoots();
 
-        /// <summary>
-        /// Метод возвращающий корневой по его Id
-        /// </summary>
-        /// <returns>корневой</returns>
-        Task<RootModel> GetRoot(int rootId);
+        /// <summary>Метод возвращающий корневой по его Id.</summary>
+        /// <param name="rootId">Id искомого <see cref="RootDto"/>.</param>
+        /// <returns>Корневой, если найден с таким Id, иначе - <see langword="null"/>.</returns>
+        RootDto GetRoot(int rootId);
 
-        /// <summary>
-        /// Метод возвращающий корневой по его title
-        /// </summary>
-        /// <returns>корневой</returns>
-        Task<RootModel> GetRoot(string title);
+        /// <summary>Метод возвращающий корневой по его title.</summary>
+        /// <param name="rootId">Title искомого <see cref="RootDto"/>.</param>
+        /// <returns>Корневой, если найден с таким Title, иначе - <see langword="null"/>.</returns>
+        RootDto GetRoot(string title);
 
-        /// <summary>
-        /// Метод обновляющий корневой объект
-        /// </summary>
-        /// <returns>Флаг успешности обновления</returns>
-        Task<bool> UpdateRoot(RootModel updated);
+        /// <summary>Метод обновляющий корневой объект.</summary>
+        /// <param name="oldRoot">Экземпляр, который нужно обновить.</param>
+        /// <param name="newRoot">Экземпляр с данными для обновления.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с обновлёнными данными.</returns>
+        RootDto UpdateRoot(RootDto oldRoot, RootDto newRoot);
+
+        /// <summary>Добавляет корневой объект.</summary>
+        /// <param name="dto">Экземпляр с данными для нового корневого элемента.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными добавленного элемента.</returns>
+        RootDto AddRoot(RootDto dto);
     }
 }
