@@ -19,6 +19,14 @@ namespace Logic
             return new ChildDto(item.ID, item.Title, item.ParentID);
         }
 
+        /// <summary>Метод возвращает <see cref="ChildModel"/> с данными из переданного <see cref="ChildDto"/>.</summary>
+        /// <param name="item">Экземпляр с данными.</param>
+        /// <returns>Новый экземпляр <see cref="ChildModel"/> с данными из переданного <see cref="ChildDto"/>.</returns>
+        internal static ChildModel Mapper(ChildDto item)
+        {
+            return new ChildModel() { ID = item.ID ?? 0, Title = item.Title, ParentID = item.ParentID ?? 0 };
+        }
+
         /// <inheritdoc cref="IChildLogic.GetChild(int)"/>
         public async Task<ChildDto> GetChild(int childId)
         {
@@ -57,6 +65,19 @@ namespace Logic
             //dtos.AddRange((from item in items select Mapper(item)).ToList());
             //return dtos;
             return Array.AsReadOnly(items.Select(Mapper).ToArray());
+        }
+
+        /// <inheritdoc cref="IChildLogic.UpdateChild(ChildDto)"/>
+        public async Task<bool> UpdateChild(ChildDto updated)
+        {
+            try
+            {
+                return await childRepository.UpdateChild(Mapper(updated));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

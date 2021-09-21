@@ -21,6 +21,14 @@ namespace Logic
             return new RootDto(item.ID, item.Title);
         }
 
+        /// <summary>Метод возвращает <see cref="RootModel"/> с данными из переданного <see cref="RootDto"/>.</summary>
+        /// <param name="item">Экземпляр с данными.</param>
+        /// <returns>Новый экземпляр <see cref="RootModel"/> с данными из переданного <see cref="RootDto"/>.</returns>
+        internal static RootModel Mapper(RootDto item)
+        {
+            return new RootModel() { ID = item.ID ?? 0, Title = item.Title };
+        }
+
         /// <inheritdoc cref="IRootLogic.GetRoot(int)"/>
         public async Task<RootDto> GetRoot(int rootId)
         {
@@ -50,5 +58,19 @@ namespace Logic
             //return dtos;
             return Array.AsReadOnly(items.Select(Mapper).ToArray());
         }
+
+        /// <inheritdoc cref="IRootLogic.UpdateRoot(RootDto)"/>
+        public async Task<bool> UpdateRoot(RootDto updated)
+        {
+            try
+            {
+                return await rootRepository.UpdateRoot(Mapper(updated));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+      
     }
 }

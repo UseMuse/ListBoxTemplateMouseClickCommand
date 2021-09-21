@@ -21,14 +21,16 @@ namespace ViewModelLayer
             Task.Run(InitAsync);
         }
 
-        protected override ChildDto ChildSave(ChildDto root, string title)
+        protected async override Task<ChildDto> ChildSaveAsync(ChildDto child, string title)
         {
-            throw new NotImplementedException();
+            await model.UpdateChild(child);
+            return child;
         }
 
-        protected override RootDto RootSave(RootDto root, string title)
+        protected async override Task<RootDto> RootSaveAsync(RootDto root, string title)
         {
-            throw new NotImplementedException();
+            await model.UpdateRoot(root);
+            return root;
         }
 
         private async void InitAsync()

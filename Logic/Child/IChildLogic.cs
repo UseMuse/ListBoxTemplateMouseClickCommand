@@ -30,5 +30,11 @@ namespace Logic.Child
         /// <exception cref="ArgumentException">Выкидывается когда элемента
         /// с указанным <paramref name="title"/> нет.</exception>
         Task<ChildDto> GetChild(string title);
+
+        /// <summary>
+        /// Метод обновляющий дочений объект
+        /// </summary>
+        /// <returns>Флаг успешности обновления. Любая ошибка распознаётся как не успех</returns>
+        Task<bool> UpdateChild(ChildDto updated);
     }
 }

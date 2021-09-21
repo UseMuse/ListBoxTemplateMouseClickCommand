@@ -24,5 +24,11 @@ namespace Logic.Root
         /// <exception cref="ArgumentException">Выкидывается когда элемента
         /// с указанным <paramref name="title"/> нет.</exception>
         Task<RootDto> GetRoot(string title);
+
+        /// <summary>
+        /// Метод обновляющий корневой объект
+        /// </summary>
+        /// <returns>Флаг успешности обновления. Любая ошибка распознаётся как не успех</returns>
+        Task<bool> UpdateRoot(RootDto updated);
     }
 }

@@ -26,5 +26,11 @@ namespace Data.Root
         /// </summary>
         /// <returns>корневой</returns>
         Task<RootModel> GetRoot(string title);
+
+        /// <summary>
+        /// Метод обновляющий корневой объект
+        /// </summary>
+        /// <returns>Флаг успешности обновления</returns>
+        Task<bool> UpdateRoot(RootModel updated);
     }
 }

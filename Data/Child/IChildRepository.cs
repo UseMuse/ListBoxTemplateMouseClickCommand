@@ -32,5 +32,11 @@ namespace Data.Child
         /// </summary>
         /// <returns>корневой</returns>
         Task<ChildModel> GetChild(string title);
+
+        /// <summary>
+        /// Метод обновляющий дочений объект
+        /// </summary>
+        /// <returns>Флаг успешности обновления</returns>
+        Task<bool> UpdateChild(ChildModel updated);
     }
 }
