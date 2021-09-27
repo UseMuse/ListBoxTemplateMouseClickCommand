@@ -16,7 +16,7 @@ namespace Data.Root
         RootDto GetRoot(int rootId);
 
         /// <summary>Метод возвращающий корневой по его title.</summary>
-        /// <param name="rootId">Title искомого <see cref="RootDto"/>.</param>
+        /// <param name="title">Title искомого <see cref="RootDto"/>.</param>
         /// <returns>Корневой, если найден с таким Title, иначе - <see langword="null"/>.</returns>
         RootDto GetRoot(string title);
 

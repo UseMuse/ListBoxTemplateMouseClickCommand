@@ -8,6 +8,26 @@ namespace Data.Root
 {
     public class RootRepository : IRootRepository
     {
+        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
+        /// <param name="model">Данные для нового экземпляра.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="model"/>.</returns>
+        protected RootDto Map(RootModel model)
+        {
+            return new RootDto(model.ID, model.Title);
+        }
+
+        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
+        /// <param name="dto">Данные для нового экземпляра.</param>
+        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="dto"/>.</returns>
+        protected RootModel Map(RootDto dto)
+        {
+            return new RootModel()
+            {
+                ID = dto.Id,
+                Title = dto.Title
+            };
+        }
+
         /// <inheritdoc cref="IRootRepository.GetRoot(int)"/>
         public RootDto GetRoot(int rootId)
         {
@@ -16,7 +36,7 @@ namespace Data.Root
                 var model = db.Roots.Find(rootId);
                 if (model == null)
                     return null;
-                return Create(model);
+                return Map(model);
             }
         }
 
@@ -28,7 +48,7 @@ namespace Data.Root
                 var model = db.Roots.FirstOrDefault(c => c.Title == title);
                 if (model == null)
                     return null;
-                return Create(model);
+                return Map(model);
 
             }
         }
@@ -38,7 +58,7 @@ namespace Data.Root
         {
             using (DbContextApp db = new DbContextApp())
             {
-                return db.Roots.ToArray().Select(Create).ToArray();
+                return db.Roots.ToArray().Select(Map).ToArray();
             }
         }
 
@@ -58,30 +78,10 @@ namespace Data.Root
                 if (change != 1)
                     throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
 
-                return Create(model);
+                return Map(model);
             }
-
         }
 
-        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
-        /// <param name="model">Данные для нового экземпляра.</param>
-        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="model"/>.</returns>
-        protected RootDto Create(RootModel model)
-        {
-            return new RootDto(model.ID, model.Title);
-        }
-
-        /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
-        /// <param name="dto">Данные для нового экземпляра.</param>
-        /// <returns>Новый экземпляр <see cref="RootDto"/> с данными из <paramref name="dto"/>.</returns>
-        protected  RootModel Create(RootDto dto)
-        {
-            return new RootModel()
-            {
-                ID= dto.Id,
-                Title= dto.Title 
-            };
-        }
 
         /// <summary>Копирует данные в <see cref="RootModel"/> из <see cref="RootDto"/>.</summary>
         /// <param name="model">Экземпляр в который нужно скопировать данные.</param>
@@ -109,7 +109,7 @@ namespace Data.Root
         {
             using (DbContextApp db = new DbContextApp())
             {
-                var model = Create(dto);
+                var model = Map(dto);
                 db.Roots.Add(model);
                 int change = db.SaveChanges();
                 // После сохранения Модели в ней данные могут быть изменены.
@@ -121,7 +121,7 @@ namespace Data.Root
                 if (change != 1)
                     throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
                 
-                return Create(model);
+                return Map(model);
             }
         }
     }
