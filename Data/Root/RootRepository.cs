@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Data.Root
 {
-    public class RootRepository : IRootRepository
+    public partial class RootRepository : IRootRepository
     {
         /// <summary>Создаёт новый экземпляр <see cref="RootDto"/>.</summary>
         /// <param name="model">Данные для нового экземпляра.</param>
@@ -31,54 +31,104 @@ namespace Data.Root
         /// <inheritdoc cref="IRootRepository.GetRoot(int)"/>
         public RootDto GetRoot(int rootId)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                var model = db.Roots.Find(rootId);
-                if (model == null)
+                if (DemoData.TryGetValue(rootId, out RootModel model))
+                {
+                    return Map(model);
+                }
+                else
+                {
                     return null;
-                return Map(model);
+                }
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    var model = db.Roots.Find(rootId);
+                    if (model == null)
+                        return null;
+                    return Map(model);
+                }
             }
         }
 
         /// <inheritdoc cref="IRootRepository.GetRoot(string)"/>
         public RootDto GetRoot(string title)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                var model = db.Roots.FirstOrDefault(c => c.Title == title);
-                if (model == null)
+                RootModel model = DemoData.Values.FirstOrDefault(rm => rm.Title == title);
+                if (model != null)
+                {
+                    return Map(model);
+                }
+                else
+                {
                     return null;
-                return Map(model);
+                }
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    var model = db.Roots.FirstOrDefault(c => c.Title == title);
+                    if (model == null)
+                        return null;
+                    return Map(model);
 
+                }
             }
         }
 
         /// <inheritdoc cref="IRootRepository.GetRoots()"/>
         public IEnumerable<RootDto> GetRoots()
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                return db.Roots.ToArray().Select(Map).ToArray();
+                return DemoData.Values.Select(Map).ToArray();
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    return db.Roots.ToArray().Select(Map).ToArray();
+                }
             }
         }
 
         /// <inheritdoc cref="IRootRepository.UpdateRoot(RootModel)"/>
         public RootDto UpdateRoot(RootDto oldRoot, RootDto newRoot)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                RootModel model = db.Roots.Find(oldRoot.Id);
-                if (model?.ID != oldRoot.Id)
+                if (!DemoData.TryGetValue(oldRoot.Id, out RootModel model))
                     throw new Exception("Root с таким Id в базе нет. Возможно кто-то уже его удалил.");
                 if (!ValuesEquals(model, oldRoot))
                     throw new Exception("У этого Root другой Title. Возможно кто-то уже его изменил.");
 
                 CopyFrom(model, newRoot);
-                int change = db.SaveChanges();
-                if (change != 1)
-                    throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
 
                 return Map(model);
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    RootModel model = db.Roots.Find(oldRoot.Id);
+                    if (model?.ID != oldRoot.Id)
+                        throw new Exception("Root с таким Id в базе нет. Возможно кто-то уже его удалил.");
+                    if (!ValuesEquals(model, oldRoot))
+                        throw new Exception("У этого Root другой Title. Возможно кто-то уже его изменил.");
+
+                    CopyFrom(model, newRoot);
+                    int change = db.SaveChanges();
+                    if (change != 1)
+                        throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+
+                    return Map(model);
+                }
             }
         }
 
@@ -104,24 +154,38 @@ namespace Data.Root
                 model.Title == dto.Title;
         }
 
+        protected readonly Random random = new Random();
+
         /// <inheritdoc cref="IRootRepository.AddRoot(RootDto)"/>
         public RootDto AddRoot(RootDto dto)
         {
-            using (DbContextApp db = new DbContextApp())
+            var model = Map(dto);
+            if (IsDemoData)
             {
-                var model = Map(dto);
-                db.Roots.Add(model);
-                int change = db.SaveChanges();
-                // После сохранения Модели в ней данные могут быть изменены.
-                // Допустим, ID при добавлении игнорируется и после добавления
-                // в он будет перезаписан ID из БД.
-                // Поэтому надо создать новый DTO из той же Модели и вернуть его.
-
-
-                if (change != 1)
-                    throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
-                
+                int id = 1;
+                while (DemoData.ContainsKey(id))
+                    id = random.Next(1000);
+                model.ID = id;
+                DemoData.Add(id, model);
                 return Map(model);
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    db.Roots.Add(model);
+                    int change = db.SaveChanges();
+                    // После сохранения Модели в ней данные могут быть изменены.
+                    // Допустим, ID при добавлении игнорируется и после добавления
+                    // в он будет перезаписан ID из БД.
+                    // Поэтому надо создать новый DTO из той же Модели и вернуть его.
+
+
+                    if (change != 1)
+                        throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+
+                    return Map(model);
+                }
             }
         }
     }

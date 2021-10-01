@@ -1,16 +1,12 @@
-﻿using Data;
-using Data.Model;
+﻿using Data.Model;
 using DTO;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Child
 {
-    public class ChildRepository : IChildRepository
+    public partial class ChildRepository : IChildRepository
     {
         /// <summary>Создаёт новый экземпляр <see cref="ChildDto"/>.</summary>
         /// <param name="model">Данные для нового экземпляра.</param>
@@ -57,51 +53,156 @@ namespace Data.Child
         /// <inheritdoc cref="IChildRepository.GetChild(int)"/>
         public ChildDto GetChild(int childId)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                var model = db.Children.Find(childId);
-                if (model == null)
+                if (DemoData.TryGetValue(childId, out ChildModel model))
+                {
+                    return Map(model);
+                }
+                else
+                {
                     return null;
-                return Map(model);
+                }
+            }
+            else
+            {
+
+                using (DbContextApp db = new DbContextApp())
+                {
+                    var model = db.Children.Find(childId);
+                    if (model == null)
+                        return null;
+                    return Map(model);
+                }
             }
         }
 
+        /// <inheritdoc cref="IChildRepository.GetChild(string)"/>
         public ChildDto GetChild(string title)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                var model = db.Children.FirstOrDefault(c => c.Title == title);
-                if (model == null)
+                ChildModel model = DemoData.Values.FirstOrDefault(rm => rm.Title == title);
+                if (model != null)
+                {
+                    return Map(model);
+                }
+                else
+                {
                     return null;
-                return Map(model);
-
+                }
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    var model = db.Children.FirstOrDefault(c => c.Title == title);
+                    if (model == null)
+                        return null;
+                    return Map(model);
+                }
             }
         }
 
+        /// <inheritdoc cref="IChildRepository.GetChildren(int)"/>
         public IEnumerable<ChildDto> GetChildren(int rootId)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                return db.Children.Where(c => c.ParentID == rootId).Select(Map).ToArray();
+                return DemoData.Values.Where(cm => cm.ParentID == rootId).Select(Map).ToArray();
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    return db.Children.Where(c => c.ParentID == rootId).Select(Map).ToArray();
+                }
             }
         }
 
+        /// <inheritdoc cref="IChildRepository.UpdateRoot(ChildDto, ChildDto)"/>
         public ChildDto UpdateRoot(ChildDto oldChild, ChildDto newChild)
         {
-            using (DbContextApp db = new DbContextApp())
+            if (IsDemoData)
             {
-                ChildModel model = db.Children.Find(oldChild.Id);
-                if (model?.ID != oldChild.Id)
-                    throw new Exception("Child с таким Id в базе нет. Возможно кто-то уже его удалил.");
+                if (!DemoData.TryGetValue(oldChild.Id, out ChildModel model))
+                    throw new Exception("Root с таким Id в базе нет. Возможно кто-то уже его удалил.");
                 if (!ValuesEquals(model, oldChild))
-                    throw new Exception("У этого Child другой Title. Возможно кто-то уже его изменил.");
+                    throw new Exception("У этого Root другой Title. Возможно кто-то уже его изменил.");
 
                 CopyFrom(model, newChild);
-                int change = db.SaveChanges();
-                if (change != 1)
-                    throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
 
                 return Map(model);
+            }
+            else
+            {
+
+                using (DbContextApp db = new DbContextApp())
+                {
+                    ChildModel model = db.Children.Find(oldChild.Id);
+                    if (model?.ID != oldChild.Id)
+                        throw new Exception("Child с таким Id в базе нет. Возможно кто-то уже его удалил.");
+                    if (!ValuesEquals(model, oldChild))
+                        throw new Exception("У этого Child другой Title. Возможно кто-то уже его изменил.");
+
+                    CopyFrom(model, newChild);
+                    int change = db.SaveChanges();
+                    if (change != 1)
+                        throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+
+                    return Map(model);
+                }
+            }
+        }
+
+        /// <inheritdoc cref="IChildRepository.GetChildren()"/>
+        public IEnumerable<ChildDto> GetChildren()
+        {
+            if (IsDemoData)
+            {
+                return DemoData.Values.Select(Map).ToArray();
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    return db.Children.Select(Map).ToArray();
+                }
+            }
+        }
+
+        protected readonly Random random = new Random();
+
+        /// <inheritdoc cref="IChildRepository.AddRoot(ChildDto)"/>
+        public ChildDto AddRoot(ChildDto dto)
+        {
+            var model = Map(dto);
+            if (IsDemoData)
+            {
+                int id = 1;
+                while (DemoData.ContainsKey(id))
+                    id = random.Next(1000);
+                model.ID = id;
+                DemoData.Add(id, model);
+                return Map(model);
+            }
+            else
+            {
+                using (DbContextApp db = new DbContextApp())
+                {
+                    db.Children.Add(model);
+                    int change = db.SaveChanges();
+
+                    // После сохранения Модели в ней данные могут быть изменены.
+                    // Допустим, ID при добавлении игнорируется и после добавления
+                    // в он будет перезаписан ID из БД.
+                    // Поэтому надо создать новый DTO из той же Модели и вернуть его.
+
+                    if (change != 1)
+                        throw new Exception($"Должна была измениться одна запись, а изменилось {change} записей.");
+
+                    return Map(model);
+                }
             }
         }
     }

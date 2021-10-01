@@ -1,83 +1,46 @@
-﻿using Data.Model;
+﻿using DTO;
 using Logic.Child;
-using Logic.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Logic
 {
     public partial class MainLogic : IChildLogic
     {
-
-        /// <summary>Метод возвращает <see cref="ChildDto"/> с данными из переданного <see cref="ChildModel"/>.</summary>
-        /// <param name="item">Экземпляр с данными.</param>
-        /// <returns>Новый экземпляр <see cref="ChildDto"/> с данными из переданного <see cref="ChildModel"/>.</returns>
-        internal static ChildDto Mapper(ChildModel item)
+        /// <inheritdoc cref="IChildLogic.AddRootAsync(ChildDto)"/>
+        public Task<ChildDto> AddRootAsync(ChildDto dto)
         {
-            return new ChildDto(item.ID, item.Title, item.ParentID);
+            return Task.Run(() => childRepository.AddRoot(dto));
         }
 
-        /// <summary>Метод возвращает <see cref="ChildModel"/> с данными из переданного <see cref="ChildDto"/>.</summary>
-        /// <param name="item">Экземпляр с данными.</param>
-        /// <returns>Новый экземпляр <see cref="ChildModel"/> с данными из переданного <see cref="ChildDto"/>.</returns>
-        internal static ChildModel Mapper(ChildDto item)
+        /// <inheritdoc cref="IChildLogic.GetChildAsync(int)"/>
+        public Task<ChildDto> GetChildAsync(int childId)
         {
-            return new ChildModel() { ID = item.Id ?? 0, Title = item.Title, ParentID = item.ParentID ?? 0 };
+            return Task.Run(() => childRepository.GetChild(childId));
         }
 
-        /// <inheritdoc cref="IChildLogic.GetChild(int)"/>
-        public async Task<ChildDto> GetChild(int childId)
+        /// <inheritdoc cref="IChildLogic.GetChildAsync(string)"/>
+        public Task<ChildDto> GetChildAsync(string title)
         {
-            ChildModel item = await childRepository.GetChild(childId);
-            if (item == null)
-                throw new ArgumentException(nameof(childId));
-            ChildDto dto = Mapper(item);
-            return dto;
+            return Task.Run(() => childRepository.GetChild(title));
         }
 
-        /// <inheritdoc cref="IChildLogic.GetChild(string)"/>
-        public async Task<ChildDto> GetChild(string title)
+        /// <inheritdoc cref="IChildLogic.GetChildrenAsync())"/>
+        public Task<IEnumerable<ChildDto>> GetChildrenAsync()
         {
-            ChildModel item = await childRepository.GetChild(title);
-            if (item == null)
-                throw new ArgumentException(nameof(title));
-            ChildDto dto = Mapper(item);
-            return dto;
+            return Task.Run(() => childRepository.GetChildren());
         }
 
-        /// <inheritdoc cref="IChildLogic.GetChildren()"/>
-        public async Task<IEnumerable<ChildDto>> GetChildren()
+        /// <inheritdoc cref="IChildLogic.GetChildrenAsync(int))"/>
+        public Task<IEnumerable<ChildDto>> GetChildrenAsync(int rootId)
         {
-            IEnumerable<ChildModel> items = await childRepository.GetChildren();
-            //List<ChildDTO> dtos = new List<ChildDTO>();
-            //dtos.AddRange((from item in items select Mapper(item)).ToList());
-            //return dtos;
-            return Array.AsReadOnly(items.Select(Mapper).ToArray());
+            return Task.Run(() => childRepository.GetChildren(rootId));
         }
 
-        /// <inheritdoc cref="IChildLogic.GetChildren(int)"/>
-        public async Task<IEnumerable<ChildDto>> GetChildren(int rootId)
+        /// <inheritdoc cref="IChildLogic.UpdateRoot(ChildDto, ChildDto))"/>
+        public Task<ChildDto> UpdateRoot(ChildDto oldChild, ChildDto newChild)
         {
-            IEnumerable<ChildModel> items = await childRepository.GetChildren(rootId);
-            //List<ChildDTO> dtos = new List<ChildDTO>();
-            //dtos.AddRange((from item in items select Mapper(item)).ToList());
-            //return dtos;
-            return Array.AsReadOnly(items.Select(Mapper).ToArray());
-        }
-
-        /// <inheritdoc cref="IChildLogic.UpdateChild(ChildDto)"/>
-        public async Task<bool> UpdateChild(ChildDto updated)
-        {
-            try
-            {
-                return await childRepository.UpdateChild(Mapper(updated));
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return Task.Run(() => childRepository.UpdateRoot(oldChild, newChild));
         }
     }
 }

@@ -18,6 +18,5 @@ namespace Logic
             this.rootRepository = rootRepository ?? throw new ArgumentNullException(nameof(rootRepository));
             this.childRepository = childRepository ?? throw new ArgumentNullException(nameof(childRepository));
         }
-
     }
 }

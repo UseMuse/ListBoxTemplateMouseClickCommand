@@ -1,18 +1,19 @@
-﻿using Data.Model;
-using DTO;
-using System;
+﻿using DTO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Child
 {
     public interface IChildRepository
     {
+        /// <summary>Метод возвращающий все дочерние элементы.</summary>
+        /// <returns>Все дочернии элементы.</returns>
+        IEnumerable<ChildDto> GetChildren();
+
         /// <summary>Метод возвращающий дочернии элементы по его родительскому rootId.</summary>
         /// <param name="rootId">rootId родительского.</param>
-        /// <returns>Дочернии элементы, если найдены с таким родительским rootId, иначе - <see langword="null"/>.</returns>
+        /// <returns>Дочернии элементы, если найдены с таким родительским rootId,
+        /// иначе - <see cref="Enumerable.Empty{ChildDto}"><see cref="Enumerable"/>.Empty&lt;<see cref="ChildDto "/>&gt;</see>().</returns>
         IEnumerable<ChildDto> GetChildren(int rootId);
 
         /// <summary>Метод возвращающий дочерний по его Id.</summary>
@@ -30,5 +31,10 @@ namespace Data.Child
         /// <param name="newChild">Экземпляр с данными для обновления.</param>
         /// <returns>Новый экземпляр <see cref="ChildDto"/> с обновлёнными данными.</returns>
         ChildDto UpdateRoot(ChildDto oldChild, ChildDto newChild);
+
+        /// <summary>Добавляет дочерний объект.</summary>
+        /// <param name="dto">Экземпляр с данными для нового дочернего элемента.</param>
+        /// <returns>Новый экземпляр <see cref="ChildDto"/> с данными добавленного элемента.</returns>
+        ChildDto AddRoot(ChildDto dto);
     }
 }
