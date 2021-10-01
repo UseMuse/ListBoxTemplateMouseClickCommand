@@ -37,12 +37,12 @@ namespace Logic.Child
         /// <returns>Новый экземпляр <see cref="ChildDto"/> с обновлёнными данными.</returns>
         /// <exception cref="ArgumentException">Выкидывается когда элемента
         /// с указанным <paramref name="childId"/> нет или когда у него отличается Title.</exception>
-        Task<ChildDto> UpdateRoot(ChildDto oldChild, ChildDto newChild);
+        Task<ChildDto> UpdateChildAsync(ChildDto oldChild, ChildDto newChild);
 
         /// <summary>Добавляет дочерний объект.</summary>
         /// <param name="dto">Экземпляр с данными для нового дочернего элемента.</param>
         /// <returns>Новый экземпляр <see cref="ChildDto"/> с данными добавленного элемента.</returns>
-        Task<ChildDto> AddRootAsync(ChildDto dto);
+        Task<ChildDto> AddChildAsync(ChildDto dto);
 
     }
 }

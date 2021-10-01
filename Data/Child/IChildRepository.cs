@@ -30,11 +30,11 @@ namespace Data.Child
         /// <param name="oldChild">Экземпляр, который нужно обновить.</param>
         /// <param name="newChild">Экземпляр с данными для обновления.</param>
         /// <returns>Новый экземпляр <see cref="ChildDto"/> с обновлёнными данными.</returns>
-        ChildDto UpdateRoot(ChildDto oldChild, ChildDto newChild);
+        ChildDto UpdateChild(ChildDto oldChild, ChildDto newChild);
 
         /// <summary>Добавляет дочерний объект.</summary>
         /// <param name="dto">Экземпляр с данными для нового дочернего элемента.</param>
         /// <returns>Новый экземпляр <see cref="ChildDto"/> с данными добавленного элемента.</returns>
-        ChildDto AddRoot(ChildDto dto);
+        ChildDto AddChild(ChildDto dto);
     }
 }

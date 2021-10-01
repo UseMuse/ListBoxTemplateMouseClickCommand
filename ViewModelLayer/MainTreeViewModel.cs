@@ -1,7 +1,6 @@
 ﻿using Common;
+using DTO;
 using Logic;
-using Logic.DTO;
-using Simplified;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,13 +22,14 @@ namespace ViewModelLayer
 
         protected async override Task<ChildDto> ChildSaveAsync(ChildDto child, string title)
         {
-            await model.UpdateChild(child);
+            ChildDto newChild = new ChildDto(child.Id, title, child.ParentID);
+            await model.UpdateChildAsync(child, newChild);
             return child;
         }
-
         protected async override Task<RootDto> RootSaveAsync(RootDto root, string title)
         {
-            await model.UpdateRoot(root);
+            RootDto newRoot = new RootDto(root.Id, title);
+            await model.UpdateRootAsync(root, newRoot);
             return root;
         }
 

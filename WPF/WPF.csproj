@@ -224,14 +224,6 @@
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
     <Compile Include="Lazier.cs" />
     <Compile Include="MouseDoubleNoBubbling.cs" />
-    <Compile Include="DataModel\DataModelChild.cs" />
-    <Compile Include="DataModel\DataModelRoot.cs" />
-    <Compile Include="DBHelper.cs" />
-    <Compile Include="ViewModel\ViewModelChildEdit.cs" />
-    <Compile Include="ViewModel\ViewModelRootEdit.cs" />
-    <Compile Include="ViewModel\ViewModelRoot.cs" />
-    <Compile Include="ViewModel\ViewModelChild.cs" />
-    <Compile Include="ViewModel\ViewModelMain.cs" />
     <Compile Include="View\ChildEdit.xaml.cs">
       <DependentUpon>ChildEdit.xaml</DependentUpon>
     </Compile>
@@ -303,6 +295,10 @@
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{D90F8CB3-2C06-4877-AB18-613509F97A69}</Project>
       <Name>Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModelLayer\ViewModelLayer.csproj">
+      <Project>{1C6876B6-303B-4201-B9AB-62B8E1B698A2}</Project>
+      <Name>ViewModelLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -120,8 +120,8 @@ namespace Data.Child
             }
         }
 
-        /// <inheritdoc cref="IChildRepository.UpdateRoot(ChildDto, ChildDto)"/>
-        public ChildDto UpdateRoot(ChildDto oldChild, ChildDto newChild)
+        /// <inheritdoc cref="IChildRepository.UpdateChild(ChildDto, ChildDto)"/>
+        public ChildDto UpdateChild(ChildDto oldChild, ChildDto newChild)
         {
             if (IsDemoData)
             {
@@ -173,8 +173,8 @@ namespace Data.Child
 
         protected readonly Random random = new Random();
 
-        /// <inheritdoc cref="IChildRepository.AddRoot(ChildDto)"/>
-        public ChildDto AddRoot(ChildDto dto)
+        /// <inheritdoc cref="IChildRepository.AddChild(ChildDto)"/>
+        public ChildDto AddChild(ChildDto dto)
         {
             var model = Map(dto);
             if (IsDemoData)

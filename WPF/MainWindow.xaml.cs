@@ -1,5 +1,4 @@
-﻿using WPF.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace WPF

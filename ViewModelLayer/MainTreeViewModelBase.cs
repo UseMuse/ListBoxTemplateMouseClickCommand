@@ -1,4 +1,4 @@
-﻿using Logic.DTO;
+﻿using DTO;
 using Simplified;
 using System;
 using System.Collections;

@@ -7,10 +7,10 @@ namespace Logic
 {
     public partial class MainLogic : IChildLogic
     {
-        /// <inheritdoc cref="IChildLogic.AddRootAsync(ChildDto)"/>
-        public Task<ChildDto> AddRootAsync(ChildDto dto)
+        /// <inheritdoc cref="IChildLogic.AddChildAsync(ChildDto)"/>
+        public Task<ChildDto> AddChildAsync(ChildDto dto)
         {
-            return Task.Run(() => childRepository.AddRoot(dto));
+            return Task.Run(() => childRepository.AddChild(dto));
         }
 
         /// <inheritdoc cref="IChildLogic.GetChildAsync(int)"/>
@@ -37,10 +37,10 @@ namespace Logic
             return Task.Run(() => childRepository.GetChildren(rootId));
         }
 
-        /// <inheritdoc cref="IChildLogic.UpdateRoot(ChildDto, ChildDto))"/>
-        public Task<ChildDto> UpdateRoot(ChildDto oldChild, ChildDto newChild)
+        /// <inheritdoc cref="IChildLogic.UpdateChildAsync(ChildDto, ChildDto))"/>
+        public Task<ChildDto> UpdateChildAsync(ChildDto oldChild, ChildDto newChild)
         {
-            return Task.Run(() => childRepository.UpdateRoot(oldChild, newChild));
+            return Task.Run(() => childRepository.UpdateChild(oldChild, newChild));
         }
     }
 }
