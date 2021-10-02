@@ -84,14 +84,24 @@ namespace WPF
         {
             ChildrenViewSource children = (ChildrenViewSource)d;
             children.privateRoot = (RootVM)e.NewValue;
-            children.View?.Refresh();
+            if (e.NewValue == null)
+            {
+                children.Filter -= OnChildrenFilter;
+            }
+            else if (e.OldValue == null)
+            {
+                children.Filter += OnChildrenFilter;
+            }
+            else
+            {
+                children.View?.Refresh();
+            }
         }
 
         public ChildrenViewSource()
         {
             IsLiveFilteringRequested = true;
             LiveFilteringProperties.Add(nameof(ChildVM.Data));
-            Filter += OnChildrenFilter;
             BindingOperations.SetBinding(this, RootProperty, bindContext);
         }
         private static Binding bindContext = new Binding();
@@ -99,8 +109,7 @@ namespace WPF
         {
             ChildrenViewSource children = (ChildrenViewSource)sender;
             ChildVM child = (ChildVM)e.Item;
-            e.Accepted = children.privateRoot == null ||
-                         child.Data.ParentID == children.privateRoot?.Data.Id;
+            e.Accepted = child.Data.ParentID == children.privateRoot.Data.Id;
         }
     }
 
