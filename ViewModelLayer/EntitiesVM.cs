@@ -27,12 +27,12 @@ namespace ViewModelLayer
 
             if (propertyName == nameof(Data))
             {
-                MessageBox.Show(
-$@"Изменилось свойство ChildVM.Data.
-Значения свойств:
-{nameof(ChildDto.Id)}: {((ChildDto)oldValue)?.Id} -> {Data?.Id};
-{nameof(ChildDto.ParentID)}: {((ChildDto)oldValue)?.ParentID} -> {Data?.ParentID};
-{nameof(ChildDto.Title)}: {((ChildDto)oldValue)?.Title} -> {Data?.Title}.");
+//                MessageBox.Show(
+//$@"Изменилось свойство ChildVM.Data.
+//Значения свойств:
+//{nameof(ChildDto.Id)}: {((ChildDto)oldValue)?.Id} -> {Data?.Id};
+//{nameof(ChildDto.ParentID)}: {((ChildDto)oldValue)?.ParentID} -> {Data?.ParentID};
+//{nameof(ChildDto.Title)}: {((ChildDto)oldValue)?.Title} -> {Data?.Title}.");
             }
         }
     }

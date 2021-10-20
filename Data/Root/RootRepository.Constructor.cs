@@ -20,9 +20,6 @@ namespace Data.Root
         protected readonly Dictionary<int, RootModel> DemoData = new List<RootModel>()
         {
             new RootModel() {ID=123, Title="Firs"},
-            new RootModel() {ID=34, Title="Second"},
-            new RootModel() {ID=56, Title="Third"},
-            new RootModel() {ID=78, Title="Forth"}
         }
         .ToDictionary(rm => rm.ID);
     }

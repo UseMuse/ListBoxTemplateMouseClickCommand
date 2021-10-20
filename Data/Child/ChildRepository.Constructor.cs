@@ -15,17 +15,20 @@ namespace Data.Child
         public ChildRepository(bool isDemoData)
         {
             IsDemoData = isDemoData;
+            DemoData = GetLarge();
         }
-        protected readonly Dictionary<int, ChildModel> DemoData = new List<ChildModel>()
+
+        private Dictionary<int, ChildModel> GetLarge()
         {
-            new ChildModel() {ID=12, ParentID=123, Title="Firs-Firs" },
-            new ChildModel() {ID=121, ParentID=123, Title="Firs-Second" },
-            new ChildModel() {ID=122, ParentID=34, Title="Second-Firs" },
-            new ChildModel() {ID=221, ParentID=56, Title="Third-Second" },
-            new ChildModel() {ID=333, ParentID=78, Title="Forth-Second" },
-            new ChildModel() {ID=444, ParentID=78, Title="Forth-Firs" },
-            new ChildModel() {ID=555, ParentID=78, Title="Forth-Third" },
+            List<ChildModel> datas = new List<ChildModel>();
+            for (int i = 0; i < 10000; i++)
+            {
+                datas.Add(new ChildModel() { ID = i, ParentID = 123, Title = $"{i}" });
+            }
+            return datas.ToDictionary(rm => rm.ID);
         }
-        .ToDictionary(rm => rm.ID);
+
+        protected readonly Dictionary<int, ChildModel> DemoData;
+
     }
 }

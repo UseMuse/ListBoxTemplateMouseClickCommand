@@ -1,9 +1,11 @@
 ﻿using Common;
 using DTO;
 using Logic;
+using Simplified;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ViewModelLayer
 {
@@ -17,7 +19,8 @@ namespace ViewModelLayer
             : base(rootTitleEditDialog, childTitleEditDialog)
         {
             this.model = model ?? throw new ArgumentNullException(nameof(model));
-            Task.Run(InitAsync);
+            //Task.Run(InitAsync);
+            LoadAsync = new RelayCommand(InitAsync);
         }
 
         protected async override Task<ChildDto> ChildSaveAsync(ChildDto child, string title)
@@ -40,5 +43,7 @@ namespace ViewModelLayer
             Roots.AddRange((await model.GetRootsAsync()).Select(CreateVM));
             Children.AddRange((await model.GetChildrenAsync()).Select(CreateVM));
         }
+
+        public ICommand LoadAsync { get; private set; }
     }
 }

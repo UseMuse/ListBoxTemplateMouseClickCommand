@@ -28,15 +28,22 @@
         </ResourceDictionary>
     </Window.Resources>
     <!--первичная асинхронная загрузка данных-->
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
     <Grid>
-        <ListBox ItemsSource="{Binding Path=Roots}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="12"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ProgressBar Grid.Row="0" IsIndeterminate="True" Minimum="1" Maximum="100" Width="auto"/>
+        <Button  Grid.Row="1" Command="{Binding LoadAsync}" >LoadAsync</Button>
+        <ListBox  Grid.Row="2" ItemsSource="{Binding Path=Roots}"
              SelectedItem="{Binding Path=SelectedRoot, Mode=TwoWay}"
-             ScrollViewer.CanContentScroll="False">
+             ScrollViewer.CanContentScroll="False" Margin="0,10,0,0" Grid.RowSpan="2">
             <ListBox.InputBindings>
                 <KeyBinding Key="Return" Command="{Binding ShowEditDialogCommand}" />
             </ListBox.InputBindings>
@@ -89,16 +96,24 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <!--демонстрация хода асинхронной загрузки первичных данных-->
-        <Grid Visibility="{Binding LoadDataCommand.Execution, Converter={StaticResource NullToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10">
-            <!--Busy indicator-->
+        <!--<Grid Visibility="{Binding LoadDataCommand.Execution, Converter={StaticResource NullToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10">
+            -->
+        <!--Busy indicator-->
+        <!--
             <Label Content="Loading..." Visibility="{Binding LoadDataCommand.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <!--Results-->
+            -->
+        <!--Results-->
+        <!--
             <Label Content="{Binding LoadDataCommand.Execution.Result}" Visibility="{Binding LoadDataCommand.Execution.IsSuccessfullyCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <!--Error details-->
+            -->
+        <!--Error details-->
+        <!--
             <Label Content="{Binding LoadDataCommand.Execution.ErrorMessage}" Visibility="{Binding LoadDataCommand.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="Red" />
-            <!--Canceled-->
+            -->
+        <!--Canceled-->
+        <!--
             <Label Content="Canceled" Visibility="{Binding LoadDataCommand.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="Blue" />
-        </Grid>
+        </Grid>-->
 
     </Grid>
 </Window>
